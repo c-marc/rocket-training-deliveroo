@@ -20,6 +20,7 @@ function App() {
   const [theme, setTheme] = useState("white");
 
   console.info("App");
+  console.info("Cart content", cart);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,10 +46,11 @@ function App() {
     // setCart(cartCopy);
     console.info("addToCart");
     setCart((cart) => {
-      const mealPresent = cart.find((elem) => elem.id === meal.id);
+      const cartCopy = [...cart];
+      const mealPresent = cartCopy.find((elem) => elem.id === meal.id);
       if (mealPresent) mealPresent.quantity++;
-      else cart.push({ ...meal, quantity: 1 });
-      return cart;
+      else cartCopy.push({ ...meal, quantity: 1 });
+      return cartCopy;
     });
   }, []);
 
@@ -63,14 +65,15 @@ function App() {
     // }
     // setCart(cartCopy);
     setCart((cart) => {
-      const mealPresent = cart.find((elem) => elem.id === meal.id);
+      const cartCopy = [...cart];
+      const mealPresent = cartCopy.find((elem) => elem.id === meal.id);
       if (mealPresent.quantity === 1) {
-        const index = cart.indexOf(mealPresent);
-        cart.splice(index, 1);
+        const index = cartCopy.indexOf(mealPresent);
+        cartCopy.splice(index, 1);
       } else {
         mealPresent.quantity--;
       }
-      return cart;
+      return cartCopy;
     });
   }, []);
 
